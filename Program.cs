@@ -8,13 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+builder.Services.AddScoped<ITenantContextService, TenantContextService>();
+
 builder.Services.AddDbContext<TenantDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<ITenantContextService, TenantContextService>();
+builder.Services.AddTransient<ITenantService, TenantService>();
 
 var app = builder.Build();
 
